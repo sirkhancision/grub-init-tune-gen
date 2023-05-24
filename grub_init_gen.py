@@ -150,7 +150,7 @@ def print_grub_init(tempo, notes):
     output = [tempo]
 
     for note in notes:
-        parts = note.split(" - ")
+        parts = note.split(" ")
         if len(parts) != 2:
             print("Incorrect format for input")
             sys.exit(1)
@@ -185,12 +185,10 @@ def adjust_output(factor, output):
 
     for index, note in enumerate(output[1:], start=1):
         if note in DURATION_TABLE.values():
-            if (factor / int(note)) % 1 == 0:
-                output[index] = str(factor // int(note))
-            elif note == "1":
+            if note == "1":
                 output[index] = str(factor)
             else:
-                output[index] = str(int(note) * (factor // 4))
+                output[index] = str(factor // int(note))
 
 
 def main():
@@ -198,12 +196,12 @@ def main():
     notes = []
 
     print("Notes are typed like this:")
-    print("NOTE - DURATION [with a '.' after it if it's a dotted note]")
-    print("If it's a rest, REST - DURATION\n")
+    print("NOTE DURATION [with a '.' after it if it's a dotted note]")
+    print("If it's a rest, REST DURATION\n")
 
     while True:
         note = input(
-            "What is the next note with its duration? (NOTE - DURATION [.])\nIf you want to end the melody, type END\n"
+            "What is the next note with its duration? (NOTE DURATION[.])\nIf you want to end the melody, type END\n"
         )
         if note.upper() == "END":
             break
