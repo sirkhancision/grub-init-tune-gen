@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import argparse
 import sys
 
 FREQ_TABLE = {
@@ -142,6 +143,8 @@ DURATION_TABLE = {
     "16.": "24",
     "32": "32",
     "32.": "48",
+    "64": "64",
+    "64.": "96",
 }
 
 
@@ -169,7 +172,9 @@ def print_grub_init(tempo, notes):
             print(f"{duration} not a valid value, aborting")
             sys.exit(1)
 
-    if "32" in output:
+    if "64" in output:
+        adjust_output(64, output)
+    elif "32" in output:
         adjust_output(32, output)
     elif "16" in output:
         adjust_output(16, output)
@@ -191,20 +196,47 @@ def adjust_output(factor, output):
                 output[index] = str(factor // int(note))
 
 
-def main():
-    tempo = input("What's the BPM? ")
+def main(argv):
+    parser = argparse.ArgumentParser(
+        prog="grub_init_gen", description="GRUB_INIT_TUNE generator"
+    )
+    parser.add_argument(
+        "-q",
+        "--quiet",
+        help="Prints only the resulting code, useful for inputs from files",
+        action="store",
+        nargs="*",
+    )
+    args = parser.parse_args(argv)
+
+    quiet = False
+    if args.quiet is not None:
+        quiet = True
+
+    if not quiet:
+        print("What's the BPM?")
+    tempo = input()
     notes = []
 
-    print("Notes are typed like this:")
-    print("NOTE DURATION [with a '.' after it if it's a dotted note]")
-    print("If it's a rest, REST DURATION\n")
+    if not quiet:
+        print("Notes are typed like this:")
+        print("NOTE DURATION [with a '.' after it if it's a dotted note]")
+        print("If it's a rest, REST DURATION")
+        print(
+            "You can also type in comments starting with #, which will be ignored (useful if you're passing the notes from a file)\n"
+        )
 
     while True:
-        note = input(
-            "What is the next note with its duration? (NOTE DURATION[.])\nIf you want to end the melody, type END\n"
-        )
+        if not quiet:
+            print(
+                "What is the next note with its duration? (NOTE DURATION[.])\nIf you want to end the melody, type END\n"
+            )
+        note = input()
+
         if note.upper() == "END":
             break
+        elif note.startswith("#"):
+            continue
         notes.append(note)
 
     print_grub_init(tempo, notes)
@@ -212,7 +244,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        main(sys.argv[1:])
     except KeyboardInterrupt:
         print("\nScript aborted")
         sys.exit(1)
