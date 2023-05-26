@@ -12,3 +12,5 @@ Here are some possible inputs for notes in the program:
 - Bb6 4. [this is a dotted 4th note]
 - bb4 32 [32nd note]
 - rest 8 [this is a rest with the duration of a 8th note]
+
+The files `stratosphere_input.txt` and `stratosphere_output.txt` are the most comprehensive examples in the `examples` folder, and `stratosphere_input.txt` has comments explaining how it works. It's totally not a practical tune to use as your init, but it's didactic for sure.
