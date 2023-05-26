@@ -17,6 +17,8 @@
 # you can also write dotted notes, like this:
 # 8.: dotted 8th note
 #
+# there's also support to rests, simply using the keyword 'rest' where you'd write a note, and writing the rest's duration as normal
+#
 # riff 1, 1st time
 #
 eb5 16
