@@ -16,13 +16,15 @@ def print_grub_init(tempo, notes):
 
         note, duration = parts[0].upper(), parts[1]
 
-        if note not in FREQ_TABLE:
+        try:
+            output.append(FREQ_TABLE[note])
+        except KeyError:
             raise ValueError(f"{note} not a valid value, aborting")
-        output.append(FREQ_TABLE[note])
 
-        if duration not in DURATION_TABLE:
+        try:
+            output.append(DURATION_TABLE[duration])
+        except KeyError:
             raise ValueError(f"{duration} not a valid value, aborting")
-        output.append(DURATION_TABLE[duration])
 
     for duration in [64, 32, 16, 8]:
         if str(duration) in output:
@@ -35,8 +37,10 @@ def print_grub_init(tempo, notes):
 def adjust_output(factor, output):
     output[0] = str(int(output[0]) * (factor // 4))
 
+    duration_values = set(DURATION_TABLE.values())
+
     for index, note in enumerate(output[1:], start=1):
-        if note in DURATION_TABLE.values():
+        if note in duration_values:
             if note == "1":
                 output[index] = str(factor)
             else:
