@@ -67,13 +67,13 @@ def main(argv):
 
     if not quiet:
         tempo = input("What's the BPM?")
-        print("Notes are typed like this:")
+        print("Notes are typed as follows:")
         print("NOTE DURATION [with a '.' after it if it's a dotted note]")
         print("If it's a rest, REST DURATION")
         print("You can also type in comments starting with #, which will be "
-              "ignored (useful if you're passing the notes from a file)\n")
+              "ignored (useful if you're passing the notes from a file).\n")
         prompt = (
-            "What is the next note with its duration? (NOTE DURATION[.])\n"
+            "What is the next note and its duration? (NOTE DURATION[.])\n"
             "If you want to end the melody, type END\n")
     else:
         tempo = input()
